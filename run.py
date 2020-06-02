@@ -1,4 +1,5 @@
 from scrapy.crawler import CrawlerProcess
+import spider
 import os
 
 filename = input("Please enter a filename for the spider output:> ")
@@ -13,7 +14,8 @@ process = CrawlerProcess(settings={
     "FEEDS": {
         filename: {"format": "json"},
     },
+    "LOG_ENABLED": False,
 })
 
-process.crawl(cnnMarket)
+process.crawl(spider.cnnMarket)
 process.start()
