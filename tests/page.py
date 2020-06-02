@@ -1,8 +1,11 @@
+"""
+Page retrieval script. Run from the command line to download the 
+main url page and the robots.txt file.
+"""
 import requests as r
-from lxml import html
 import os
 
-url = "https://money.cnn.com/data/markets/nasdaq/"
+url = "https://money.cnn.com/data/markets/"
 rtext = "https://money.cnn.com/robots.txt"
 
 page = r.get(url)
