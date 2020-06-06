@@ -53,3 +53,10 @@ if not os.path.exists(os.getcwd() + "/data/market_overview.json"):
 else:
     if input("Data file exists, do you wish to overwrite? (y/n):> ") in ('y','Y',"yes","Yes"):
         pass
+
+if not os.path.exists(os.getcwd() + "/data/DOW30.json"):
+    with open(os.getcwd() + "/data/DOW30.json",'w') as file:
+        json.dump(DOW_composite_data,file)
+else:
+    if input("Data file exists, do you wish to overwrite? (y/n):> ") in ('y','Y',"yes","Yes"):
+        pass
