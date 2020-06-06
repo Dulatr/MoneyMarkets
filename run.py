@@ -59,3 +59,4 @@ if not os.path.exists(os.getcwd() + "/data/DOW30.json"):
 else:
     if input("Data file exists, do you wish to overwrite? (y/n):> ") in ('y','Y',"yes","Yes"):
         pass
+
