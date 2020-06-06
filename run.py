@@ -48,11 +48,6 @@ driver.close()
 
 cwd = os.getcwd()
 
-if os.path.exists(cwd + "/data/market_overview.json"):
-    os.remove(cwd + "/data/market_overview.json")  
-if os.path.exists(cwd + "/data/DOW30.json"):
-    os.remove(cwd + "/data/DOW30.json")
-  
 with open(cwd + "/data/market_overview.json",'w') as file:
     json.dump(overview_data,file)  
 with open(cwd + "/data/DOW30.json",'w') as file:
