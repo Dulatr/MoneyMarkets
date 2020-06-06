@@ -1,0 +1,15 @@
+### Environment
+/venv
+.vscode
+
+### Output files
+*.html
+*.txt
+*.json
+*.log
+
+### Module ref
+__pycache__
+
+### Requirements
+!requirements.txt
