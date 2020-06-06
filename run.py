@@ -46,17 +46,15 @@ for item in dow30_items:
 
 driver.close()
 
-if not os.path.exists(os.getcwd() + "/data/market_overview.json"):
-    with open(os.getcwd() + "/data/market_overview.json",'w') as file:
-        json.dump(overview_data,file)
-else:
-    if input("Data file exists, do you wish to overwrite? (y/n):> ") in ('y','Y',"yes","Yes"):
-        pass
+cwd = os.getcwd()
 
-if not os.path.exists(os.getcwd() + "/data/DOW30.json"):
-    with open(os.getcwd() + "/data/DOW30.json",'w') as file:
-        json.dump(DOW_composite_data,file)
-else:
-    if input("Data file exists, do you wish to overwrite? (y/n):> ") in ('y','Y',"yes","Yes"):
-        pass
+if os.path.exists(cwd + "/data/market_overview.json"):
+    os.remove(cwd + "/data/market_overview.json")  
+if os.path.exists(cwd + "/data/DOW30.json"):
+    os.remove(cwd + "/data/DOW30.json")
+  
+with open(cwd + "/data/market_overview.json",'w') as file:
+    json.dump(overview_data,file)  
+with open(cwd + "/data/DOW30.json",'w') as file:
+    json.dump(DOW_composite_data,file)
 
