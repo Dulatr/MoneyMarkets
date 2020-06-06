@@ -37,7 +37,7 @@ for item in tickers:
 
 DOW_composite_data ={}
 driver.get("https://money.cnn.com/data/dow30/")
-dow30_table = driver.find_element_by_class_name('wsod_dataTableBig')
+dow30_table = driver.find_element_by_css_selector('table.wsod_dataTableBig')
 dow30_items = dow30_table.find_elements_by_tag_name('tr')
 
 for item in dow30_items:
