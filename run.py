@@ -52,4 +52,3 @@ with open(cwd + "/data/market_overview.json",'w') as file:
     json.dump(overview_data,file)  
 with open(cwd + "/data/DOW30.json",'w') as file:
     json.dump(DOW_composite_data,file)
-
