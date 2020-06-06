@@ -1,15 +1,17 @@
-# Stock Quote Scraper
+# MoneyMarketCLI
 
 This script retrieves and stores the quoted prices for the DOW, Nasdaq and S&P 500 from the [CNN money markets](https://money.cnn.com/data/markets/). Retrieved data is stored in the JSON format for a file specified by the user prompt.
 
-## Requirements
+# Requirements
 
-In it's current form, this project uses [scrapy](https://github.com/scrapy/scrapy) which has the following list of dependencies:
+* [Selenium](https://selenium-python.readthedocs.io/installation.html)
 
-* [lxml](https://lxml.de/index.html)
-* [parsel](https://pypi.org/project/parsel/)
-* [w3lib](https://pypi.org/project/w3lib/)
-* [twisted](https://twistedmatrix.com/trac/)
-* [cryptography](https://cryptography.io/en/latest/)
-* [pyOpenSSL](https://pypi.org/project/pyOpenSSL/)
+# Usage
 
+Run:
+
+```python
+pip install -r requirements.txt
+```
+
+within your python environment. Then execute `run.py`.
