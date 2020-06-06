@@ -14,7 +14,7 @@ except KeyError:
 
 # Setup headless browser options
 chrome_options = Options()
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("log-level=3")
@@ -22,7 +22,6 @@ chrome_options.add_experimental_option("prefs",{"profile.default_content_setting
 driver = webdriver.Chrome(executable_path="{}/chromedriver.exe".format(DRIVER),options=chrome_options)
 
 # Visit and retreive info from page
-
 overview_data = {}
 driver.get("https://money.cnn.com/data/markets/")
 overview_items = driver.find_element_by_class_name("markets-overview")
