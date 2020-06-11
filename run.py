@@ -2,7 +2,6 @@ import os
 import json
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 
 try:
@@ -52,3 +51,6 @@ with open(cwd + "/data/market_overview.json",'w') as file:
     json.dump(overview_data,file)  
 with open(cwd + "/data/DOW30.json",'w') as file:
     json.dump(DOW_composite_data,file)
+n):> ") in ('y','Y',"yes","Yes"):
+        pass
+
