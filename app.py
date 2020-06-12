@@ -26,8 +26,8 @@ class Stock:
 
     def getTable(self):
         DOW_composite_data ={}
-        driver.get("https://money.cnn.com/data/dow30/")
-        dow30_table = driver.find_element_by_css_selector('table.wsod_dataTableBig')
+        self._client.get("https://money.cnn.com/data/dow30/")
+        dow30_table = self._client.find_element_by_css_selector('table.wsod_dataTableBig')
         dow30_items = dow30_table.find_elements_by_tag_name('tr')
 
         for item in dow30_items:
@@ -37,5 +37,5 @@ class Stock:
 
         return DOW_composite_data
 
-    def Close():
+    def Close(self):
         self._client.close()
