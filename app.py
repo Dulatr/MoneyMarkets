@@ -5,8 +5,6 @@ class Stock:
     def __init__(self,client: webdriver.Chrome,**kwargs):
         self._configuration = kwargs
         self._client = client
-        
-        self.getPage()
     
     def Start(self):
         self._client.get("https://money.cnn.com/data/markets/")
