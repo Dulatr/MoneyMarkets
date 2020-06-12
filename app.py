@@ -38,4 +38,4 @@ class Stock:
         return DOW_composite_data
 
     def Close(self):
-        self._client.close()
+        self._client.quit()
