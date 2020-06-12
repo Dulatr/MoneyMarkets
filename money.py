@@ -1,9 +1,11 @@
 import os
+import sys
 import json
 
 from app import Stock
 from utils.Parser import Parse
 
+from multiprocessing import Queue
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -36,10 +38,13 @@ app.Close()
 cwd = os.getcwd()
 
 if args.suppress:
+    if not(os.path.exists("data")):
+        os.makedirs('data')
+    
     with open(cwd + "/data/market_overview.json",'w') as file:
         json.dump(overview_data,file) 
 
     with open(cwd + "/data/DOW30.json",'w') as file:
         json.dump(DOW_composite_data,file)
 else:
-    print(f"{overview_data}\n{DOW_composite_data}")
+    sys.stdout.write(f"{overview_data}\n{DOW_composite_data}")
