@@ -38,7 +38,9 @@ class Stock:
         return DOW_composite_data
 
     def getUpdated(self):
-        pass
+        self._client.get("https://money.cnn.com/data/markets/")
+        response = self._client.find_element_by_css_selector("div.disclaimer").get_attribute('innerText')
+        return response
 
     def Close(self):
         self._client.quit()
