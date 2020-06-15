@@ -28,11 +28,22 @@ chrome_options.add_experimental_option("prefs",{"profile.default_content_setting
 driver = webdriver.Chrome(executable_path="{}/chromedriver.exe".format(DRIVER),options=chrome_options)
 
 # Get stock info by default
-app = Stock(driver)
+if args.app == 'stock':
+    app = Stock(driver)
+else:
+    raise NotImplementedError(f"Application '{args.app}' not currently implemented in this version.")
 
 app.Start()
-overview_data = app.getOverview()
-DOW_composite_data = app.getTable()
+
+data = {}
+
+if args.overview:
+    data["overview"] = app.getOverview()
+if args.keystats:
+    data["dow30"] = app.getTable()
+
+data["last-updated"] = app.getUpdated()
+
 app.Close()
 
 cwd = os.getcwd()
@@ -40,11 +51,9 @@ cwd = os.getcwd()
 if args.suppress:
     if not(os.path.exists("data")):
         os.makedirs('data')
-    
-    with open(cwd + "/data/market_overview.json",'w') as file:
-        json.dump(overview_data,file) 
 
-    with open(cwd + "/data/DOW30.json",'w') as file:
-        json.dump(DOW_composite_data,file)
+    with open(cwd + f"/data/{args.app}.json",'w') as file:
+        json.dump(data,file) 
+
 else:
-    sys.stdout.write(f"{overview_data}\n{DOW_composite_data}")
+    sys.stdout.write(f"{data}")

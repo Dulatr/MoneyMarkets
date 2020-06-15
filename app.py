@@ -37,5 +37,8 @@ class Stock:
 
         return DOW_composite_data
 
+    def getUpdated(self):
+        pass
+
     def Close(self):
         self._client.quit()
