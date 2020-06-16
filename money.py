@@ -33,14 +33,12 @@ if args.app == 'stock':
 else:
     raise NotImplementedError(f"Application '{args.app}' not currently implemented in this version.")
 
-app.Start()
-
 data = {}
 
 if args.overview:
     data["overview"] = app.getOverview()
-if args.keystats:
-    data["dow30"] = app.getTable()
+
+data["tables"] = app.getTable(args.keystats)
 
 data["last-updated"] = app.getUpdated()
 
