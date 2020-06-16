@@ -112,6 +112,19 @@ class Story:
         self._client = client
 
     def getPage(self,page: list = None,img: bool = False,save: bool = False,path: str = None) -> dict:
+        """
+        Get a news story information from a specific page.
+
+        :Args:
+            --page: page to pull stories from, currently only accepts ['front'].
+            --img: boolean to determine whether to write out associated img info.
+            --save: boolean to determine whether to save image data. only works with img=True.
+            --path: path to save image data. defaults to <current program dir>/img/News/
+
+        :Output:
+            --dict: a dictionary object is returned with structure:
+                    dict[page][story]{[title][web_link][path]}
+        """
         if (path is None) and save:
             path = os.getcwd() + "/img/News/"
 
