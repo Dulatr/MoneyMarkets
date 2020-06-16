@@ -6,13 +6,26 @@ This script retrieves and stores the quoted prices for the DOW, Nasdaq and S&P 5
 
 * [Selenium](https://selenium-python.readthedocs.io/installation.html)
 
-# Usage
+# Install
 
-Run:
+For windows users using cxFreeze you can create an executable via [setup.py](setup.py):
 
-```python
+```powershell
+# Clone the repo
+git clone https://github.com/Dulatr/MoneyMarketsCLI
+cd MoneyMarketsCLI
+
+# Install cxFreeze
+pip install cx_Freeze --upgrade
 pip install -r requirements.txt
+
+# Run the build
+python ./setup.py build
+
+# Add to path
+$Env:Path += ";./build/exe.<your exe version folder>/"
+
+# use!
+./money.exe stock --help
 ```
-
-
-within your python environment. Then execute `run.py`.
+For detailed usage read this [statement](https://github.com/Dulatr/MoneyMarketsCLI/pull/5).
