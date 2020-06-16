@@ -2,7 +2,7 @@ import os
 import sys
 import json
 
-from app import Stock
+from app import Stock,Story
 from utils.Parser import Parse
 
 from multiprocessing import Queue
@@ -28,22 +28,34 @@ chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 chrome_options.add_experimental_option("prefs",{"profile.default_content_settings.cookies": 2})
 driver = webdriver.Chrome(executable_path="{}/chromedriver.exe".format(DRIVER),options=chrome_options)
 
-# Get stock info by default
 if args.app == 'stock':
     app = Stock(driver)
+elif args.app == 'story':
+    app = Story(driver)
 else:
     raise NotImplementedError(f"Application '{args.app}' not currently implemented in this version.")
 
 data = {}
 
-if args.overview:
-    data["overview"] = app.getOverview()
-
-data["tables"] = app.getTable(args.keystats,args.usindex)
+if isinstance(app,Stock):
+    # Check stock arguments
+    if args.overview:
+        data["overview"] = app.getOverview()
+    data["tables"] = app.getTable(args.keystats,args.usindex)
+elif isinstance(app,Story):
+    # Check story arguments
+    if args.img:
+        if not(os.path.exists("img")):
+            os.mkdir("img")
+            os.mkdir("img/News")
+    if args.frontpage:     
+        data["stories"]=app.getPage(['front'],args.img,args.suppress)
+    else:
+        data["stories"]=app.getPage(img=args.img,save=args.suppress)    
 
 data["last-updated"] = app.getUpdated()
 
-app.Close()
+driver.quit()
 
 cwd = os.getcwd()
 
