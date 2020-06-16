@@ -38,7 +38,7 @@ data = {}
 if args.overview:
     data["overview"] = app.getOverview()
 
-data["tables"] = app.getTable(args.keystats)
+data["tables"] = app.getTable(args.keystats,args.usindex)
 
 data["last-updated"] = app.getUpdated()
 

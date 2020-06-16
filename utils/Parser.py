@@ -23,7 +23,8 @@ def Parse(*args):
     overview = stockParser.add_argument('--overview',action="store_true",help='Return market overview data containing top 3 indexes for US.')
     keystats = stockParser.add_argument('--key-stats',dest="keystats",action="store_true",help="Returns top 30 DOW Jones index data.")
     hot = stockParser.add_argument('--hot',action='store_true',help="Returns the hot stocks: Most Active, Gainers, Losers.")
-
+    USindex = stockParser.add_argument('--US-index','--US','-U',dest="usindex",nargs=1,default=None,help="Add a specific US index to output.")
+    
     # Story arguments
     frontpage = storyParser.add_argument('--front-page',dest="frontpage",action='store_true',help="Return the front page news story headliners.")
     investing = storyParser.add_argument('--investing',action='store_true',help="Return the top investing story headliners.")
