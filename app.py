@@ -1,8 +1,10 @@
 from selenium import webdriver
+
 from Tools import (
     isFailedResponse,
     getTableElements,
 )
+
 
 class Stock:
 
