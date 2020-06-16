@@ -1,13 +1,15 @@
 import os
+import sys
 import json
 
 from app import Stock
 from utils.Parser import Parse
 
-args = Parse()
-
+from multiprocessing import Queue
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+args = Parse()
 
 try:
     DRIVER = os.environ['SELENIUM_CHROME']
@@ -21,24 +23,36 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("log-level=3")
+chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
 chrome_options.add_experimental_option("prefs",{"profile.default_content_settings.cookies": 2})
 driver = webdriver.Chrome(executable_path="{}/chromedriver.exe".format(DRIVER),options=chrome_options)
 
 # Get stock info by default
-app = Stock(driver)
+if args.app == 'stock':
+    app = Stock(driver)
+else:
+    raise NotImplementedError(f"Application '{args.app}' not currently implemented in this version.")
 
-app.Start()
-overview_data = app.getOverview()
-DOW_composite_data = app.getTable()
+data = {}
+
+if args.overview:
+    data["overview"] = app.getOverview()
+
+data["tables"] = app.getTable(args.keystats,args.usindex)
+
+data["last-updated"] = app.getUpdated()
+
 app.Close()
 
 cwd = os.getcwd()
 
-with open(cwd + "/data/market_overview.json",'w') as file:
-    json.dump(overview_data,file) 
+if args.suppress:
+    if not(os.path.exists("data")):
+        os.makedirs('data')
 
-print(overview_data)
-with open(cwd + "/data/DOW30.json",'w') as file:
-    json.dump(DOW_composite_data,file)
+    with open(cwd + f"/data/{args.app}.json",'w') as file:
+        json.dump(data,file) 
 
+else:
+    sys.stdout.write(f"{data}")
