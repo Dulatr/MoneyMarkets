@@ -10,12 +10,10 @@ class Stock:
         self._configuration = kwargs
         self._client = client
     
-    def Start(self):
-        self._client.get("https://money.cnn.com/data/markets/")
-    
     def getOverview(self):
         overview_data = {}
-
+        self._client.get("https://money.cnn.com/data/markets/")
+    
         overview_items = self._client.find_element_by_class_name("markets-overview")
         tickers = overview_items.find_elements_by_css_selector("a.ticker")
         
@@ -73,17 +71,17 @@ class Stock:
                         response[item][row[0]] = row[1:]
                 except Exception as e:
                     pass
-        else:
+        elif isinstance(markets,str):
             self._client.get(url + f"/markets/{markets}/")
-            
+
             try:
                 table_items = getTableElements(self._client,2)
                 for table_item in table_items:
                     row = table_item.get_attribute('innerText').split()
                     response[item][row[0]] = row[1:]
             except Exception as e:
-                print(e)
-
+                pass
+ 
         if keystats:
             self._client.get(url + "/dow30/")
             dow30_items = getTableElements(self._client)
