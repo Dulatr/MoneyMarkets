@@ -1,5 +1,5 @@
 from selenium import webdriver
-
+import os
 from Tools import (
     isFailedResponse,
     getTableElements,
@@ -104,3 +104,67 @@ class Stock:
 
     def Close(self):
         self._client.quit()
+
+class Story:
+    
+    def __init__(self,client: webdriver.Chrome,**kwargs):
+        self._configuration = kwargs
+        self._client = client
+
+    def getPage(self,page: list = None,img: bool = False,save: bool = False,path: str = None) -> dict:
+        """
+        Get a news story information from a specific page.
+
+        :Args:
+            --page: page to pull stories from, currently only accepts ['front'].
+            --img: boolean to determine whether to write out associated img info.
+            --save: boolean to determine whether to save image data. only works with img=True.
+            --path: path to save image data. defaults to <current program dir>/img/News/
+
+        :Output:
+            --dict: a dictionary object is returned with structure:
+                    dict[page][story]{[title][web_link][path]}
+        """
+        if (path is None) and save:
+            path = os.getcwd() + "/img/News/"
+
+        if page is None:
+            return {}
+        if not(page[0] in ('front','investing')):
+            return {"Error": f"""`{page}` not a viable page. Expected `('front','investing')`"""}
+        
+        self._client.get("https://money.cnn.com/data/markets/")
+        data = {}
+        for item in page:
+            if item == 'front':
+                news_list = self._client.find_elements_by_css_selector("li.summary")
+                data[item] = {}
+                story_num = 1
+                for news_story in news_list:
+                    data[item][f"story{story_num}"] = {}
+                    data[item][f"story{story_num}"]["title"] = news_story.get_attribute('innerText')
+                    data[item][f"story{story_num}"]["web_link"] = news_story.find_element_by_css_selector("a.summary-hed").get_attribute('href')
+                    if img:
+                        try:
+                            src = news_story.find_element_by_tag_name("img").get_attribute('src')
+                            data[item][f"story{story_num}"]["img_link"] = src
+                        except:
+                            data[item][f"story{story_num}"]["img_link"] = ''                        
+                    story_num += 1
+                if img and save:
+                    img_num = 1
+                    for story in data[item]:
+                        try:
+                            self._client.get(data[item][story]["img_link"])
+                            _saved_to = f"{path}story_image{img_num}.png"
+                            self._client.save_screenshot(_saved_to)
+                            data[item][story]["path"] = _saved_to
+                        except:
+                            pass
+                        img_num += 1
+        return data
+    
+    def getUpdated(self):
+        self._client.get("https://money.cnn.com/data/markets/")
+        response = self._client.find_element_by_css_selector("div.disclaimer").get_attribute('innerText')
+        return response
