@@ -40,10 +40,10 @@ class Stock:
             try:
                 for item in markets:
                     if not isinstance(item,str):
-                        raise TypeError(f"'{item}' in argument 'markets' expected '{type(str)}', received '{type(item)}'.")
+                        raise TypeError(f"'{item}' in argument 'markets' expected '{str}', received '{type(item)}'.")
             except:
                 if not isinstance(markets,str):
-                    raise TypeError(f"'{markets}' in argument 'markets' expected '{type(str)}', received '{type(markets)}'.")
+                    raise TypeError(f"'{markets}' in argument 'markets' expected '{str}', received '{type(markets)}'.")
 
         if isinstance(markets,list):
             for item in markets:
