@@ -49,9 +49,9 @@ elif isinstance(app,Story):
             os.mkdir("img")
             os.mkdir("img/News")
     if args.frontpage:     
-        data["stories"]=app.getPage(['front'],args.img,args.suppress)
+        data["stories"]=app.getPage(['front'],args.img,True)
     else:
-        data["stories"]=app.getPage(img=args.img,save=args.suppress)    
+        data["stories"]=app.getPage(img=args.img,save=False)    
 
 data["last-updated"] = app.getUpdated()
 
