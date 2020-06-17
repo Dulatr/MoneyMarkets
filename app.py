@@ -156,7 +156,7 @@ class Story:
                     for story in data[item]:
                         try:
                             self._client.get(data[item][story]["img_link"])
-                            _saved_to = f"{path}story_image{img_num}.png"
+                            _saved_to = f"{path}story{img_num}.png"
                             self._client.save_screenshot(_saved_to)
                             data[item][story]["path"] = _saved_to
                         except:
