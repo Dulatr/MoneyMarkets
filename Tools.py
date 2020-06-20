@@ -6,6 +6,16 @@ import requests
 
 import sys
 
+def isUp(url: str) -> bool:
+    """
+    Check url for status code 200
+    """
+    try:
+        response = requests.get(url)
+        return response.status_code == 200
+    except:
+        return False
+
 def isFailedResponse(url: str) -> bool:
     """
     Check url for response code 404: page not found.

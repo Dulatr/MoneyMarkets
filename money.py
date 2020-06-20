@@ -53,7 +53,13 @@ elif isinstance(app,Story):
     else:
         data["stories"]=app.getPage(img=args.img,save=False)    
 
-data["last-updated"] = app.getUpdated()
+if args.status:
+    try:
+        data["status"] = app.getStatus()
+    except:
+        data["status"] = "Not connected"
+
+data["lastUpdated"] = app.getUpdated()
 
 driver.quit()
 

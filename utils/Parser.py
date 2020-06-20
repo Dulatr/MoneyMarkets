@@ -10,6 +10,8 @@ def Parse(*args):
     stockParser = subParser.add_parser('stock',help="The money makets stock application.",description="This application retrieves stock data.")
     currencyParser = subParser.add_parser('money',help="The money markets currency application.",description="This application returns currency information for a specified denomination. The default behavior is to print out the valuation of top 7 currencies listed on the page.")
     
+    status = parser.add_argument("--status",action="store_true",help="Check the status to the url used by a specified app. Returns ('Ok','Not connected') for ok status code and last updated time if available.")
+
     # File arguments
     suppress = parser.add_argument("-s","--suppress",action="store_true",help="Suppress stdout. Write data as file to /<program_directory>/data/*.<format> (Default format is json).")
 

@@ -3,14 +3,29 @@ import os
 from Tools import (
     isFailedResponse,
     getTableElements,
+    isUp,
 )
 
-
-class Stock:
-
+class App:
     def __init__(self,client: webdriver.Chrome,**kwargs):
         self._configuration = kwargs
+        if not("startUrl" in kwargs.keys()):
+            self._configuration["startUrl"] = "https://money.cnn.com/data/markets/"
         self._client = client
+    
+    def getStatus(self) -> str:
+        if isUp(self._configuration["startUrl"]):
+            return "OK"
+        return "No connection"  
+
+    def getUpdated(self):
+        if self.getStatus() == "No connection":
+            return ""
+        self._client.get("https://money.cnn.com/data/markets/")
+        response = self._client.find_element_by_css_selector("div.disclaimer").get_attribute('innerText')
+        return response
+
+class Stock(App):
     
     def getOverview(self):
         overview_data = {}
@@ -96,20 +111,11 @@ class Stock:
             response["keystats"] = DOW_composite_data
         
         return response
-    
-    def getUpdated(self):
-        self._client.get("https://money.cnn.com/data/markets/")
-        response = self._client.find_element_by_css_selector("div.disclaimer").get_attribute('innerText')
-        return response
 
     def Close(self):
         self._client.quit()
 
-class Story:
-    
-    def __init__(self,client: webdriver.Chrome,**kwargs):
-        self._configuration = kwargs
-        self._client = client
+class Story(App):
 
     def getPage(self,page: list = None,img: bool = False,save: bool = False,path: str = None) -> dict:
         """
@@ -163,8 +169,3 @@ class Story:
                             pass
                         img_num += 1
         return data
-    
-    def getUpdated(self):
-        self._client.get("https://money.cnn.com/data/markets/")
-        response = self._client.find_element_by_css_selector("div.disclaimer").get_attribute('innerText')
-        return response
