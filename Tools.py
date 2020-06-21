@@ -34,7 +34,23 @@ def getTableElements(driver: webdriver.Chrome,tableIndex: int = 0) -> [webdriver
     try:
         selector = driver.find_elements_by_css_selector("table.wsod_dataTableBig")
         table = selector[tableIndex].find_element_by_tag_name('tbody')
-        return table.find_elements_by_tag_name('tr')
+    except IndexError as i:
+        selector = driver.find_elements_by_css_selector("table.wsod_dataTableBigAlt")
+        table = selector[tableIndex].find_element_by_tag_name('tbody')
     except Exception as e:
-        sys.stdout.write(e)
+        sys.stdout.write(e.args)
         return None
+    
+    return table.find_elements_by_tag_name('tr')
+
+def buildDict(keys: list,*lists: list) -> dict:
+    """
+    From a set of desired keys, attach a list of data at that key.
+    """
+    if len(lists) != len(keys):
+        raise ValueError("Number of keys must match the number of data lists.")
+
+    dictionary = {}
+    for key,_list in zip(keys,lists):
+        dictionary[key] = _list
+    return dictionary

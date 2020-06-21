@@ -4,6 +4,7 @@ from Tools import (
     isFailedResponse,
     getTableElements,
     isUp,
+    buildDict
 )
 
 class App:
@@ -111,6 +112,38 @@ class Stock(App):
             response["keystats"] = DOW_composite_data
         
         return response
+
+    def getHot(self) -> dict:
+        self._client.get("https://money.cnn.com/data/hotstocks/index.html")
+        actives = getTableElements(self._client,0)
+        gainers = getTableElements(self._client,1)
+        losers = getTableElements(self._client,2)
+
+        keys = ["actives","gainers","losers"]
+        active_data = {}
+        gainer_data = {}
+        losers_data = {}
+
+        for (a,b,c) in zip(actives[1:],gainers[1:],losers[1:]):
+            active_key = a.find_element_by_css_selector("a.wsod_symbol").get_attribute('innerText')
+            gainer_key = b.find_element_by_css_selector("a.wsod_symbol").get_attribute('innerText')
+            losers_key = c.find_element_by_css_selector("a.wsod_symbol").get_attribute('innerText')
+
+            active_data[active_key] = []
+            gainer_data[gainer_key] = []
+            losers_data[losers_key] = []         
+
+            active_tds = a.find_elements_by_css_selector("td.wsod_aRight")
+            gainer_tds = b.find_elements_by_css_selector("td.wsod_aRight")
+            losers_tds = c.find_elements_by_css_selector("td.wsod_aRight")
+
+            for (td_a,td_b,td_c) in zip(active_tds,gainer_tds,losers_tds):
+                active_data[active_key].append(td_a.get_attribute('innerText'))
+                gainer_data[gainer_key].append(td_b.get_attribute('innerText'))
+                losers_data[losers_key].append(td_c.get_attribute('innerText'))
+
+        data = buildDict(keys,active_data,gainer_data,losers_data)
+        return data
 
     def Close(self):
         self._client.quit()
