@@ -32,6 +32,11 @@ def Parse(*args):
     investing = storyParser.add_argument('--investing',action='store_true',help="Return the top investing story headliners.")
     expanded = storyParser.add_argument('-e',dest='indices',nargs=2,help="Expand each story within start and end index and return the full article.")
     
+    # Money arguments
+    _from = currencyParser.add_argument("base",type=str,help="Base currency.")
+    _to = currencyParser.add_argument("to",type=str,help="Currency to convert to.")
+    amount = currencyParser.add_argument("--amount",'-a',dest="amt",default=1.0,nargs=1,type=float,help="Amount of base currency to convert. Default 1 base currency unit.")
+
     collection = ap.Namespace()  
     if not(args is None):
         collection = parser.parse_args(*args)
