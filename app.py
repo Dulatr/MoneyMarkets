@@ -17,7 +17,6 @@ class App:
         if not("startUrl" in kwargs.keys()):
             self._configuration["startUrl"] = "https://money.cnn.com/data/markets/"
         self._client = client
-        print(self)
     
     def getStatus(self) -> str:
         if isUp(self._configuration["startUrl"]):
