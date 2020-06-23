@@ -2,7 +2,7 @@ import os
 import sys
 import json
 
-from app import Stock,Story
+from app import Stock,Story,Money
 from utils.Parser import Parse
 
 from multiprocessing import Queue
@@ -33,7 +33,7 @@ if args.app == 'stock':
 elif args.app == 'story':
     app = Story(driver)
 else:
-    raise NotImplementedError(f"Application '{args.app}' not currently implemented in this version.")
+    app = Money(driver)
 
 data = {}
 
@@ -53,6 +53,12 @@ elif isinstance(app,Story):
         data["stories"]=app.getPage(['front'],args.img,True)
     else:
         data["stories"]=app.getPage(img=args.img,save=False)    
+elif isinstance(app,Money):
+    # Check money arguments
+    data["pair"] = f"{args.base}-{args.to}"
+    app.selectPair(args.base,args.to)
+    app.inputAmount(args.amt)
+    data["value"] = app.getConverted()
 
 if args.status:
     try:

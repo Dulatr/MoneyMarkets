@@ -1,5 +1,9 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+
 import os
+import time
 from Tools import (
     isFailedResponse,
     getTableElements,
@@ -13,6 +17,7 @@ class App:
         if not("startUrl" in kwargs.keys()):
             self._configuration["startUrl"] = "https://money.cnn.com/data/markets/"
         self._client = client
+        print(self)
     
     def getStatus(self) -> str:
         if isUp(self._configuration["startUrl"]):
@@ -202,3 +207,41 @@ class Story(App):
                             pass
                         img_num += 1
         return data
+
+class Money(App):
+    def __init__(self,client: webdriver.Chrome,**kwargs):
+        self._configuration = kwargs
+        if not("startUrl" in kwargs.keys()):
+            self._configuration["startUrl"] = "https://money.cnn.com/data/world_markets/americas/"
+        self._configuration["pairList"] = []
+        self._client = client
+        
+        self._client.get(self._configuration["startUrl"])
+        self._client.switch_to_frame(self._client.find_element_by_id("wsod_currencyConverterIframe"))   
+
+        pairsBox = self._client.find_element_by_name("wsod_cc_baseCurrency")
+        toBox = self._client.find_element_by_name("wsod_ccQuoteCurrency")
+        self._configuration["boxList"] = [pairsBox,toBox]
+
+        pairItems = pairsBox.find_elements_by_tag_name("option")
+        for pairitem in pairItems:
+            self._configuration["pairList"].append(pairitem.get_property("value"))
+
+    def inputAmount(self,amount: float) -> None:
+        inputBox = self._client.find_element_by_class_name("wsod_symSearchBox")
+        inputBox.click()       
+        inputBox.clear()
+        inputBox.send_keys(str(amount))
+        inputBox.send_keys(Keys.RETURN)
+    
+    def selectPair(self,_from: str,_to: str) -> None:
+        if not(_from in self._configuration["pairList"]) or not(_to in self._configuration["pairList"]):
+            raise ValueError(f"({_from},{_to}) not found in currency pair list: {self._configuration['pairList']}")
+        choose = Select(self._configuration["boxList"][0])
+        choose.select_by_value(_from)
+        choose = Select(self._configuration["boxList"][1])
+        choose.select_by_value(_to)
+
+    def getConverted(self) -> str:
+        time.sleep(0.75)
+        return self._client.find_element_by_css_selector("div.wsod_ccResult").get_attribute("innerText").split()[1]
