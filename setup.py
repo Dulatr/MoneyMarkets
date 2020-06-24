@@ -14,7 +14,7 @@ options = {
 setup(
     name = "money",
     options = options,
-    version = "v0.2.5-a3",
-    description = 'basic description',
+    version = "v0.2.6-a3",
+    description = 'Money Markets CLI applicatio.',
     executables = executables
 )
