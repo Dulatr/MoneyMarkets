@@ -94,8 +94,9 @@ class Stock(App):
                 except Exception as e:
                     pass
         elif isinstance(markets,str):
-            self._client.get(url + f"/markets/{markets}/")
-
+            if isFailedResponse(url + f"/markets/{item}/"):
+                return {"Error":f"'{item}' in argument 'markets' not found."}
+            
             try:
                 table_items = getTableElements(self._client,2)
                 for table_item in table_items:
