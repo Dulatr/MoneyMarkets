@@ -42,7 +42,8 @@ if isinstance(app,Stock):
     if args.overview:
         data["overview"] = app.getOverview()
     data["tables"] = app.getTable(args.keystats,args.usindex)
-    data["hot"] = app.getHot()
+    if args.hot:
+        data["hot"] = app.getHot()
 elif isinstance(app,Story):
     # Check story arguments
     if args.img:
