@@ -48,7 +48,7 @@ class Stock(App):
         
         return overview_data
 
-    def getTable(self,keystats: bool = False,markets: list = None) -> dict:
+    def getTable(self,keystats: bool = False,markets: list = ['']) -> dict:
         """
         Get a table specified from the markets endpoint and whether to include keystats table. 
         """
