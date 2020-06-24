@@ -80,8 +80,10 @@ class Stock(App):
                 try:
                     table_items = getTableElements(self._client,2)
                     for table_item in table_items:
-                        row = table_item.get_attribute('innerText').split()
-                        response[item][row[0]] = row[1:]
+                        symbol = table_item.find_element_by_css_selector("a.wsod_symbol").get_attribute('innerText')
+                        table_item_elements = table_item.find_elements_by_tag_name('td')[1:]
+                        symbol_data = [element.get_attribute('innerText') for element in table_item_elements]
+                        response[item][symbol] = symbol_data
                 except Exception as e:
                     pass
                     
@@ -95,7 +97,7 @@ class Stock(App):
                     pass
         else:
             raise TypeError("Invalid type for argument 'markets'. Expected list.")
-        
+
         if keystats:
             self._client.get(url + "/dow30/")
             dow30_items = getTableElements(self._client)
