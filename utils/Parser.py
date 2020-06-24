@@ -19,7 +19,7 @@ def Parse(*args):
     img = parser.add_argument("-i","--image",dest='img',action="store_true",help="Return image data from speficied app.")
 
     # Format arguments
-    _format = parser.add_argument('-f',"--format",nargs=1,default=['json'],help="Write data to stdout or a file in specified format (Default is json). See docs for valid types.")
+    # _format = parser.add_argument('-f',"--format",nargs=1,default=['json'],help="Write data to stdout or a file in specified format (Default is json). See docs for valid types.")
 
     # Stock arguments
     overview = stockParser.add_argument('--overview',action="store_true",help='Return market overview data containing top 3 indexes for US.')
@@ -30,7 +30,7 @@ def Parse(*args):
     # Story arguments
     frontpage = storyParser.add_argument('--front-page',dest="frontpage",action='store_true',help="Return the front page news story headliners.")
     investing = storyParser.add_argument('--investing',action='store_true',help="Return the top investing story headliners.")
-    expanded = storyParser.add_argument('-e',dest='indices',nargs=2,help="Expand each story within start and end index and return the full article.")
+    # expanded = storyParser.add_argument('-e',dest='indices',nargs=2,help="Expand each story within start and end index and return the full article.")
     
     # Money arguments
     _from = currencyParser.add_argument("base",type=str,help="Base currency.")
