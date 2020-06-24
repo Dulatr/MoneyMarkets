@@ -89,22 +89,13 @@ class Stock(App):
                     self._client.find_element_by_id("fwd").click()
                     table_items = getTableElements(self._client,2)
                     for table_item in table_items:
-                        row = thing.get_attribute('innerText').split()
+                        row = table_item.get_attribute('innerText').split()
                         response[item][row[0]] = row[1:]
                 except Exception as e:
                     pass
-        elif isinstance(markets,str):
-            if isFailedResponse(url + f"/markets/{item}/"):
-                return {"Error":f"'{item}' in argument 'markets' not found."}
-            
-            try:
-                table_items = getTableElements(self._client,2)
-                for table_item in table_items:
-                    row = table_item.get_attribute('innerText').split()
-                    response[item][row[0]] = row[1:]
-            except Exception as e:
-                pass
- 
+        else:
+            raise TypeError("Invalid type for argument 'markets'. Expected list.")
+        
         if keystats:
             self._client.get(url + "/dow30/")
             dow30_items = getTableElements(self._client)
